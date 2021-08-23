@@ -1,6 +1,6 @@
 https://documentation.n-able.com/N-central/troubleshooting/Content/kb/The-Windows-Agent-startup-scan-does-not-pull-in-as-much-data-as-the-scheduled-asset-scan.htm
 
-covers some basic points. For a more detialed overview:
+covers some basic points. For a more detailed understanding:
 
 Simple Scan:
 When a simple scan is performed, it detects the current logged in user, checks if a reboot is needed, pulls + validates the asset tag from WMI, Registry and NcentralAsset.xml. It then goes on to detect if Chrome is installed and evaluate the Chrome profile too.
