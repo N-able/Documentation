@@ -1,0 +1,89 @@
+https://documentation.n-able.com/N-central/troubleshooting/Content/kb/The-Windows-Agent-startup-scan-does-not-pull-in-as-much-data-as-the-scheduled-asset-scan.htm
+
+covers some basic points. For a more detialed overview:
+
+Simple Scan:
+When a simple scan is performed, it detects the current logged in user, checks if a reboot is needed, pulls + validates the asset tag from WMI, Registry and NcentralAsset.xml. It then goes on to detect if Chrome is installed and evaluate the Chrome profile too.
+
+Full Scan:
+With the full scan it first checks if snmp is enabled for the device in N-central. If that is the case, then it will perform a local SNMP discovery.
+With this it determines the hardware information like MAC address, CPU info, Hard Disk, Physical Memory information, SNMP interface data, etc.
+
+It then goes on to determine:
+Device Name
+Primary IP and/or FQDN
+Storage Volume metadata
+Physical Memory
+Media Access Device(s)
+Installed services
+Operating System - ReportedOS, CSDVersion, ServicePackMajor, ServicePackMinor, SerialNumber, Version, OSType, OSArchitecture, OperatingSystemSKU, OSProductSuite, OtherTypeDescription, SuiteMask, LastBootUpTime, TimeSystemUp, LicenseKey, LicenseType, InstallDate, Publisher, WProductType
+Interface - ifIndex, InterfacePort, InterfaceTypeID, ifAlias, ifSpeed
+MIBOID
+Cucmdiscovery
+PhyEntity - Index, Model, Serialnumber, Manufacturer
+snmpdiscoveryresult - version, community, userName, contextName, authType, authPassword, encryptionType, encryptionPassword, timeout, retry, port
+NetworkAdapterConfig - MACAddress, IPAddresses, AdapterType, Description, HostName, Gateway, DNSServer, DHCPServer
+NetworkAdapter - MACAddress, AdapterID, Description, WakeOnLan, SpeedMb, AdapterType, Manufacturer, PNPDeviceID
+ComputerSystem - NetbiosName, Domain, TotalPhysicalMemory, Version, Manufacturer, Model, SerialNumber, wirelessmanagementstate, SystemType, PopulatedMemory_Slots, TotalMemory_Slots, ChassisType, UUID, Timezone, productnumber
+
+Now with the SNMP discovery complete, it performs a WMI scan, pulling from:
+Win32_NetworkAdapter
+Win32_NetworkAdapterConfiguration
+Win32_ComputerSystem
+Win32_OperatingSystem - OS Version then Full
+Win32_ComputerSystemProduct
+Win32_DiskDrive
+Win32_CDROMDrive
+Win32_PhysicalMedia
+Win32_LogicalDisk
+Win32_VideoController
+Win32_Processor
+Win32_Service
+Win32_NetWorkConnection
+Win32_PageFile
+Win32_Share
+Win32_Battery
+Win32_SystemEnclosure
+Win32_PhysicalMemory
+Win32_PhysicalMemoryArray
+Win32_BaseBoard
+Win32_USBController
+Win32_Printer
+Win32_QuickFixEngineering
+SoftwareLicensingProduct
+Win32_BIOS
+Win32_ServerFeature
+Win32_Environment
+MSVM_Computersystem
+Win32_ApplicationPool
+Win32_WebService
+Win32_Smart
+Win32_WebServiceCache
+Win32_Ftp
+Win32_MicrosoftFtp
+Win32_DHCP
+Win32_DNS
+Win32_NLB
+Win32_PerfLogicalDisk
+Win32_ClusterGroup
+Win32_ClusterNetworkInterface
+Win32_ClusterNetwork
+Win32_ClusterNodes
+Win32_ClockDrift
+Win32_ExchangeDatabaseName
+Win32_ExchangeDatabaseInstance
+MS_Lync
+MS_SharePoint
+FSecure
+MS_SystemInfomration
+
+Then pull information from the registry:
+LicenseInfo
+Uninstall - installed apps
+DotNetDWORD
+InternetExplorerVersion
+InternetExplorerNewerVersion
+UninstallAllUsers
+PowerShellVersion3
+
+It then goes on to process this information and then pass this back to N-central. 
